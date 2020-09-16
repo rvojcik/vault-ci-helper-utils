@@ -153,7 +153,7 @@ function vault_get_secret {
         --request GET \
         $VAULT_ADDR/v1/$basic_path/$environment/$secret_path)
 
-    data=$(echo "$response" | jq '.data.data')
+    data=$(echo "$response" | jq '.data')
 
     if [[ "$data" == "null" ]] ; then
 
@@ -303,6 +303,11 @@ fi
 # Get Data from Vault
 echo "# Retrieving secret (B:$secret_basic_path, E:$environment, S: $secret_path)" >&2
 secret_data=$(vault_get_secret)
+
+# Exit main loop when vault_get_secret returns non 0
+if [ $? -gt 0 ] ; then
+	exit 1
+fi
 
 if [[ "$secret_key" == "" ]] ; then
     #

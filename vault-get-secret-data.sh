@@ -28,7 +28,8 @@
 #          environment is used from this variable
 #          example "-e CI_ENVIRONMENT_SLUG"
 #  -o    - output can be file or - for stdout (default stdout)
-#  -f    - format of the output, shell ,json or yaml (default shell)
+#  -f    - format of the output, shell, shellnq ,json or yaml (default shell)
+#          shellnq means shell with no quotes
 #  -s    - search for key, simple setup just get secret and
 #          output content of the key (-f is ignored here)
 #          Ideal to export files 
@@ -316,6 +317,8 @@ if [[ "$secret_key" == "" ]] ; then
     echo "# Format output ($output_format)" >&2
     if [[ "$output_format" == "shell" ]] ; then
         output_data=$(echo "$secret_data" | jq -r '. | to_entries | .[] | .key + "=\"" + .value + "\""')
+    elif [[ "$output_format" == "shellnq" ]] ; then
+        output_data=$(echo "$secret_data" | jq -r '. | to_entries | .[] | .key + "=" + .value')
     elif [[ "$output_format" == "yaml" ]] ; then
         output_data="---\n"$(echo "$secret_data" | jq -r '. | to_entries | .[] | .key + ": \"" + .value + "\""')
     elif [[ "$output_format" == "json" ]] ; then

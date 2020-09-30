@@ -335,7 +335,7 @@ fi
 # Output Destination
 #
 if [[ "$output_file" == "-" ]] ; then
-    echo -e "$output_data"
+    echo -e -n "$output_data"
 else
     if ! echo -e "$output_data" > $output_file ; then
         echo "Unable to write output to file: $output_file" >&2

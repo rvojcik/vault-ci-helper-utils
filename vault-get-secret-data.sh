@@ -181,7 +181,7 @@ function vault_get_secret {
 
     # If we want just content of the specific key
     if [[ "$secret_key" != "" ]] ; then
-        data=$(echo "$data" | jq -r ".$secret_key")
+        data=$(echo "$data" | jq -r ".[\"$secret_key\"]")
     fi
 
     echo "$data"

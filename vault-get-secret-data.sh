@@ -122,6 +122,7 @@ function vault_login {
 
     if [[ "n$vault_token" == "n" ]] || [[ "$vault_token" == "null" ]] ; then
         echo "ERROR: Unable to get Client Token. Auth failed" >&2
+		echo "ERROR: Response: $response" >&2
         exit 1
     fi
 
